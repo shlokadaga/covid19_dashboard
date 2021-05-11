@@ -433,11 +433,26 @@ elif select=='INDIA vs WORLD':
     w1.plotly_chart(worldconfbar)
     w2.plotly_chart(world_pie)
 
-    world_df1=world_df.iloc[1:25]
-    world_bar=px.bar(world_df1,x='Name',y='Cases - newly reported in last 24 hours',height=800,width=1600,title='Cases in last 24 hours',labels={'Name':'Country','Cases - newly reported in last 24 hours':'Cases in last 24 Hours'})
-    st.plotly_chart(world_bar)
+    world_df1=world_df.iloc[1:15]
+    world_bar=px.bar(world_df1,x='Name',y='Cases - newly reported in last 24 hours',height=600,width=850,title='Cases in last 24 hours',labels={'Name':'Country','Cases - newly reported in last 24 hours':'Number of Cases'})
+    w1.plotly_chart(world_bar)
 
+    world_df1 = world_df.iloc[1:15]
+    world_bar = px.bar(world_df1, x='Name', y='Cases - newly reported in last 7 days', height=600, width=850,
+                       title='Cases in last 7 days',
+                       labels={'Name': 'Country', 'Cases - newly reported in last 7 days': 'Number of Cases'})
+    w2.plotly_chart(world_bar)
+    w1.title(' ')
+    w2.title(' ')
     st.markdown("India's Account for Total Affected Cases in World ")
     india_percent = (world_df.loc[2, 'Cases - cumulative total'] * 100) / world_df.loc[0, 'Cases - cumulative total']
     st.info('{:,}'.format(round(india_percent)) + '% ')
+
+    w1.markdown("India's Cases - cumulative total per 1,00,000 population")
+    cum_total=world_df.loc[2,'Cases - cumulative total per 100000 population']
+    w1.info('{:,}'.format(cum_total))
+
+    w2.markdown("India's Deaths - cumulative total per 1,00,000 population")
+    cum_death_total = world_df.loc[2, 'Deaths - cumulative total per 100000 population']
+    w2.info('{:,}'.format(cum_death_total))
 st.sidebar.title('STAY HOME | STAY SAFE ')
