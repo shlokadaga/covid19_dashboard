@@ -16,6 +16,26 @@ from datetime import datetime, timedelta,date
 plt.grid(False)
 plt.style.use('ggplot')
 
+st.markdown(
+        f"""
+
+<style>
+
+    .reportview-container .main .block-container{{
+        max-width: 10000px;
+        padding-top: 5rem;
+        
+        padding-left: 4rem;
+        padding-bottom: 10rem;
+    }}
+    .reportview-container .main {{
+        background:black
+        background-color: black;
+    }}
+</style>
+""",
+        unsafe_allow_html=True,
+    )
 
 pd.options.display.float_format = '{:,.1f}'.format
 st.markdown("<span style=“background-color:#121922”>",unsafe_allow_html=True)
