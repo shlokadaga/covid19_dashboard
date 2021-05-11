@@ -1,6 +1,6 @@
 import base64
 
-import seaborn as sns
+
 import streamlit as st
 import pandas as pd
 import numpy as np
