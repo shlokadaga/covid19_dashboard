@@ -1,6 +1,4 @@
 import base64
-
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -205,7 +203,7 @@ elif select=='HOME':
     layout=go.Layout(height=500,width=850,title='DAILY TRACKER',xaxis=dict(showgrid=False))
 
     figure1=go.Figure(data=data,layout=layout)
-    figure1.update_xaxes(nticks=60)
+    figure1.update_xaxes(nticks=30)
     figure1=figure1.update_layout(
                         title={
                             'y': 0.9,
@@ -258,7 +256,7 @@ elif select=='HOME':
     fig.add_trace(data1, 2, 1)
     fig.add_trace(data2, 3, 1)
     fig.add_trace(data4, 4, 1)
-    fig.update_xaxes(nticks=20,tickangle=30)
+    fig.update_xaxes(nticks=8,tickangle=20)
     fig.update_layout(height=1500, width=900)
     home_col2.plotly_chart(fig)
     col1, col2 = st.beta_columns([.5, 1])
