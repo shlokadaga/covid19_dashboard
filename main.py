@@ -48,6 +48,7 @@ st.sidebar.markdown("Select the Charts/Plots accordingly:")
 select = st.sidebar.selectbox('COVID19 : ', ['HOME','INDIA','STATES','VACCINATION','INDIA vs WORLD'], key='1')
 
 
+
 state_df = pd.read_csv('https://api.covid19india.org/csv/latest/state_wise_daily.csv')
 state_df['Date'] = state_df.Date.apply(lambda x: pd.to_datetime(x).strftime('%d-%m-%Y'))
 state_df.rename(columns={'AN': 'Andaman Nicobar', 'AP': 'Andhra Pradesh', 'AR': 'Arunachal Pradesh', 'AS': 'Assam',
@@ -458,3 +459,6 @@ elif select=='INDIA vs WORLD':
     cum_death_total = world_df.loc[2, 'Deaths - cumulative total per 100000 population']
     w2.info('{:,}'.format(cum_death_total))
 st.sidebar.title('STAY HOME | STAY SAFE ')
+st.sidebar.title(' ')
+
+st.sidebar.info('To select DARK mode, Go to extreme right, click on the icon and then select Settings, u will get the option of different themes')
