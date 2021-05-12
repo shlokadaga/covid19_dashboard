@@ -14,7 +14,7 @@ from datetime import datetime, timedelta,date
 plt.grid(False)
 plt.style.use('ggplot')
 import streamlit_theme as stt
-stt.set_theme('dark')
+stt.set_theme({'primary': '#1b3388'})
 
 
 st.markdown(
