@@ -14,6 +14,7 @@ from datetime import datetime, timedelta,date
 plt.grid(False)
 plt.style.use('ggplot')
 
+
 st.markdown(
         f"""
 
@@ -406,7 +407,8 @@ elif select=='VACCINATION':
     b2.info('{:,}'.format(vaccinated_df11.iloc[0, 8]))
     b3.write('Transgender Individuals Vaccinated in India')
     b3.info('{:,}'.format(vaccinated_df11.iloc[0, 9]))
-    st.dataframe(vaccinated_df11[['State','Male(Individuals Vaccinated)','Female(Individuals Vaccinated)','Transgender(Individuals Vaccinated)','Total Individuals Vaccinated']],height=600)
+    vaccinated_df1=vaccinated_df1.reset_index()
+    st.dataframe(vaccinated_df11[['State','Male(Individuals Vaccinated)','Female(Individuals Vaccinated)','Transgender(Individuals Vaccinated)','Total Individuals Vaccinated']],height=1000)
     plot1=px.bar(x=[vaccinated_df11['Male(Individuals Vaccinated)'],vaccinated_df11['Female(Individuals Vaccinated)']])
 
 elif select=='INDIA vs WORLD':
