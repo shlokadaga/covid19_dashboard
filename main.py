@@ -117,31 +117,33 @@ if select=='INDIA':
     expanded_bar.markdown('ACTIVE CASES : People who currently have COVID19')
     st.markdown('    ')
 
-    col1, col2 = st.beta_columns((1.5, 1.5))
-    col1.markdown('COVID19 in India')
+    col1, col2 = st.beta_columns((1.2, 1))
+    col2.markdown('COVID19 in India')
 
-    col1.dataframe(final_df1, width=800, height=1000)
+    final_df_df=final_df1.sort_values(by='Confirmed Cases',ascending=False)
+    col2.dataframe(final_df_df, width=800, height=1000)
 
     final_df1['State']=final_df1.index
 
 
     india_fig = make_subplots(rows=4, cols=1, shared_xaxes=True)
-    indiaChart1 = go.Bar(x=final_df1['State'],y=final_df1['Confirmed Cases'],name='Confirmed Cases')
-    indiaChart2 = go.Bar(x=final_df1['State'], y=final_df1['Recovered Cases'], name='Recovered Cases')
-    indiaChart3 = go.Bar(x=final_df1['State'], y=final_df1['Active Cases'], name='Active Cases')
-    indiaChart4 = go.Bar(x=final_df1['State'], y=final_df1['Deceased Cases'], name='Deceased Cases')
+    indiaChart1 = go.Bar(x=final_df1['State'],y=final_df1['Confirmed Cases'],name='Confirmed Cases',marker_color='#d5d5d6')
+    indiaChart2 = go.Bar(x=final_df1['State'], y=final_df1['Recovered Cases'], name='Recovered Cases',marker_color='#9870a6')
+    indiaChart3 = go.Bar(x=final_df1['State'], y=final_df1['Active Cases'], name='Active Cases',marker_color='#626468')
+    indiaChart4 = go.Bar(x=final_df1['State'], y=final_df1['Deceased Cases'], name='Deceased Cases',marker_color='#e30613')
     india_fig.add_traces(indiaChart3, 1, 1)
     india_fig.add_traces(indiaChart1, 2, 1)
     india_fig.add_traces(indiaChart2, 3, 1)
     india_fig.add_traces(indiaChart4, 4, 1)
     india_fig.update_layout(height=1500, width=850)
-    col2.plotly_chart(india_fig)
+    col1.plotly_chart(india_fig)
 
 
 
-    col1.markdown(' ')
-    col1.markdown('The Pie chart shows you haw much percentage of people are currently having COVID19 in comparison with different aspects')
-    pie_expand=col1.beta_expander('INFORMATION')
+    col2.markdown(' ')
+    col2.markdown(' ')
+    col2.markdown('The Bar chart shows you haw much percentage of people are currently having COVID19 in comparison with different aspects')
+    pie_expand=col2.beta_expander('INFORMATION')
     pie_expand.markdown('The active case percentage is calculated in the following manner:')
     pie_expand.markdown('Active Cases Percentage=(Total Active Cases * 100)/Total Confirmed Case ')
     pie_expand.markdown('The rest type of Cases are calculated similarly')
@@ -155,7 +157,36 @@ if select=='INDIA':
     figure = go.Figure(data=pie_graph, layout=layout)
     figure.update_traces(textinfo='percent+label', textfont_size=18,
                          marker=dict(colors=colors, line=dict(color='#000000', width=1)))
-    col1.plotly_chart(figure)
+    axisw=['India']
+    dc=[df['Deceased_Cases'].sum()]
+    ac=[df['Active_Cases'].sum()]
+    rc=[df['Recovered_Cases'].sum()]
+    trace1=go.Bar(
+        x=dc,
+        y=axisw,
+        name='Deceased Cases',orientation='h',
+        marker_color='#e30613'
+
+    )
+    trace2 = go.Bar(
+        x=ac,
+        y=axisw,
+        name='Active Cases',orientation='h',
+        marker_color='#626468'
+    )
+    trace3 = go.Bar(
+        x=rc,
+        y=axisw,
+        name='Recovered Cases',orientation='h',
+        marker_color='#9870a6'
+    )
+    horizonatal_chart=[trace3,trace2,trace1]
+    layout11=go.Layout(barmode='stack',height=250,width=780)
+    figur11=go.Figure(data=horizonatal_chart,layout=layout11)
+    col2.plotly_chart(figur11)
+
+
+    #col2.plotly_chart(figure)
     pd.options.display.float_format = '{:,.1f}'.format
     df = pd.read_csv('https://api.covid19india.org/csv/latest/case_time_series.csv')
     df.rename(columns={'Daily Confirmed': 'Confirmed_Cases', 'Daily Recovered': 'Recovered_Cases',
@@ -163,6 +194,7 @@ if select=='INDIA':
     df['Active_Cases'] = df['Confirmed_Cases'] - (df['Recovered_Cases'] + df['Deceased_Cases'])
 
     abc = df.iloc[:, [0, 2, 4, 6, 8]]
+
 
 
     def color_negative(value):
@@ -200,14 +232,14 @@ elif select=='HOME':
     st.markdown(' The period between NOV, 2020 - '
                         ' FEB, 2021 saw the decrement in CONFIRMED CASES, but now the condition is exactly the opposite.')
     df=df.tail(150)
-    graph1 = go.Scatter(x=df['Date'],y=df['Confirmed_Cases'],name='Confirmed Cases',mode='markers+lines')
-    graph2 = go.Scatter(x=df['Date'], y=df['Recovered_Cases'], name='Recovered Cases',mode='markers+lines')
-    graph3 = go.Scatter(x=df['Date'], y=df['Deceased_Cases'], name='Deceased Cases',mode='markers+lines')
+    graph1 = go.Scatter(x=df['Date'],y=df['Confirmed_Cases'],name='Confirmed Cases',mode='markers+lines',line_color='#d5d5d6')
+    graph2 = go.Scatter(x=df['Date'], y=df['Recovered_Cases'], name='Recovered Cases',mode='markers+lines',line_color='#9870a6')
+    graph3 = go.Scatter(x=df['Date'], y=df['Deceased_Cases'], name='Deceased Cases',mode='markers+lines',line_color='#e30613')
     data=[graph3,graph1,graph2]
     layout=go.Layout(height=500,width=850,title='DAILY TRACKER',xaxis=dict(showgrid=False))
 
     figure1=go.Figure(data=data,layout=layout)
-    figure1.update_xaxes(nticks=30)
+    figure1.update_xaxes(nticks=15)
     figure1=figure1.update_layout(
                         title={
                             'y': 0.9,
@@ -215,7 +247,12 @@ elif select=='HOME':
                             'xanchor':'center',
                             'yanchor':'top'
                         }
+
                     )
+    dates=['']
+
+    figure1.add_vline(x='15 March 2021',line_dash='dash',line_color='white',opacity=0.2)
+    figure1.add_vline(x='20 March 2021',line_dash='dash',line_color='white',opacity=0.2)
     figure1.update_layout(height=700, width=1650)
 
     st.plotly_chart(figure1)
@@ -225,9 +262,9 @@ elif select=='HOME':
 
     no_of_days = st.selectbox('DAYS', [ '30 DAYS', '10 DAYS', '2 MONTHS','4 MONTHS', '6 MONTHS', '8 MONTHS'],
                                       key=2)
-    home_col1, home_col2 = st.beta_columns((1, 1.2))
-    home_col1.title(' ')
-    home_col1.title(' ')
+    home_col1, home_col2 = st.beta_columns((1.2, 0.8))
+    home_col2.markdown(' ')
+    home_col2.markdown(' ')
 
     if no_of_days == '4 MONTHS':
         df = df.tail(120)
@@ -246,15 +283,15 @@ elif select=='HOME':
 
 
     image11 = Image.open('Timeline_project.jpg')
-    home_col1.image(image11, caption='Timeline', width=600)
+    home_col2.image(image11, caption='Timeline', width=600)
 
     df = df.tail(105)
     fig = make_subplots(rows=4, cols=1)
 
-    data1 = go.Bar(x=df['Date'], y=df['Confirmed_Cases'], name='Confirmed Cases')
-    data2 = go.Bar(x=df['Date'], y=df['Recovered_Cases'], name='Recovered Cases')
-    data3 = go.Bar(x=df['Date'], y=df['Active_Cases'], name='Active Cases')
-    data4 = go.Bar(x=df['Date'], y=df['Deceased_Cases'], name='Deceased Cases')
+    data1 = go.Bar(x=df['Date'], y=df['Confirmed_Cases'], name='Confirmed Cases',marker_color='#d5d5d6')
+    data2 = go.Bar(x=df['Date'], y=df['Recovered_Cases'], name='Recovered Cases',marker_color='#9870a6')
+    data3 = go.Bar(x=df['Date'], y=df['Active_Cases'], name='Active Cases',marker_color='#626468')
+    data4 = go.Bar(x=df['Date'], y=df['Deceased_Cases'], name='Deceased Cases',marker_color='#e30613')
 
     fig.add_trace(data3, 1, 1)
     fig.add_trace(data1, 2, 1)
@@ -262,7 +299,7 @@ elif select=='HOME':
     fig.add_trace(data4, 4, 1)
     fig.update_xaxes(nticks=8,tickangle=20)
     fig.update_layout(height=1500, width=900)
-    home_col2.plotly_chart(fig)
+    home_col1.plotly_chart(fig)
     col1, col2 = st.beta_columns([.5, 1])
     csv=df.to_csv(index=False)
     b64=base64.b64encode(csv.encode()).decode()
@@ -327,10 +364,10 @@ elif select=='STATES':
         state1=state1.reset_index()
         state_fig = make_subplots(rows=4, cols=1, shared_xaxes=True)
 
-        state_fig1 = go.Bar(x=state1['District'], y=state1['Confirmed'], name='Confirmed Cases')
-        state_fig2 = go.Bar(x=state1['District'], y=state1['Active'], name='Active Cases')
-        state_fig3 = go.Bar(x=state1['District'], y=state1['Recovered'], name='Recovered Cases')
-        state_fig4 = go.Bar(x=state1['District'], y=state1['Deceased'], name='Deceased Cases')
+        state_fig1 = go.Bar(x=state1['District'], y=state1['Confirmed'], name='Confirmed Cases',marker_color='#d5d5d6')
+        state_fig2 = go.Bar(x=state1['District'], y=state1['Active'], name='Active Cases',marker_color='#626468')
+        state_fig3 = go.Bar(x=state1['District'], y=state1['Recovered'], name='Recovered Cases',marker_color='#9870a6')
+        state_fig4 = go.Bar(x=state1['District'], y=state1['Deceased'], name='Deceased Cases',marker_color='#e30613')
 
         state_fig.add_trace(state_fig2, 1, 1)
         state_fig.add_trace(state_fig1, 2, 1)
@@ -348,7 +385,7 @@ elif select=='STATES':
 
         c1.dataframe(abcd, width=1000, height=1400)
         label11 = ['Recovered Cases', 'Active Cases', 'Deceased Cases']
-        state_color=['beige','lightskyblue','peachpuff']
+        state_color=['#9870a6','#626468','#e30613']
         state_pie = go.Pie(values=[final.iat[0, 2], final.iat[0, 4], final.iat[0, 3]], labels=label11,hole=0.2)
         pie_layout = go.Layout(height=530, width=800)
 
@@ -366,7 +403,7 @@ elif select=='VACCINATION':
 
     vaccinated_df = vaccinated_dframe.iloc[:-2]
     col_vaccine=vaccinated_df.iloc[:,-2]
-    fig12 = px.bar(x=vaccinated_df['State'], y=col_vaccine, color=col_vaccine)
+    fig12 = px.bar(x=vaccinated_df['State'], y=col_vaccine)
     fig12.update_layout(height=800,width=1500)
     st.title('VACCINATION IN INDIA')
     st.markdown("On 16 January 2021 India started its national vaccination programme against the SARS-CoV-2 virus which has caused the COVID-19 pandemic. "
@@ -424,32 +461,9 @@ elif select=='INDIA vs WORLD':
     w1.info('{:,}'.format(world_df.loc[0,'Cases - cumulative total']))
     w2.markdown('TOTAL DEATH NUMBER')
     w2.info('{:,}'.format(world_df.loc[0,'Deaths - cumulative total']))
-    sort1 = world_df.sort_values(by='Cases - cumulative total', ascending=False)
-    sort1 = sort1.head(6)
-    sort1 = sort1.iloc[1:]
-    worldconfbar = px.bar(sort1,x='Name', y='Cases - cumulative total',labels={'Name':'Country','Cases - cumulative total':'Total Cases'},width=800,height=500,title='Top 5 Country having Highest Affected Cases')
-    abcd1 = world_df.groupby(['WHO Region'])['Cases - cumulative total'].sum()
-    abcd1=abcd1.to_frame()
-    abcd1=abcd1.reset_index()
-    pie_label=abcd1['WHO Region'].tolist()
-    world_pie=px.pie(abcd1,values='Cases - cumulative total',names='WHO Region',width=800,height=500,title='Region wise COVID19 Affected Pie Chart')
-    w1.plotly_chart(worldconfbar)
-    w2.plotly_chart(world_pie)
-
-    world_df1=world_df.iloc[1:15]
-    world_bar=px.bar(world_df1,x='Name',y='Cases - newly reported in last 24 hours',height=600,width=850,title='Cases in last 24 hours',labels={'Name':'Country','Cases - newly reported in last 24 hours':'Number of Cases'})
-    w1.plotly_chart(world_bar)
-
-    world_df1 = world_df.iloc[1:15]
-    world_bar = px.bar(world_df1, x='Name', y='Cases - newly reported in last 7 days', height=600, width=850,
-                       title='Cases in last 7 days',
-                       labels={'Name': 'Country', 'Cases - newly reported in last 7 days': 'Number of Cases'})
-    w2.plotly_chart(world_bar)
-    w1.title(' ')
-    w2.title(' ')
-    st.markdown("India's Account for Total Affected Cases in World ")
-    india_percent = (world_df.loc[2, 'Cases - cumulative total'] * 100) / world_df.loc[0, 'Cases - cumulative total']
-    st.info('{:,}'.format(round(india_percent)) + '% ')
+    #w1.markdown("India's Account for Total Affected Cases in World ")
+    #india_percent = (world_df.loc[2, 'Cases - cumulative total'] * 100) / world_df.loc[0, 'Cases - cumulative total']
+    #w1.info('{:,}'.format(round(india_percent)) + '% ')
 
     w1.markdown("India's Cases - cumulative total per 1,00,000 population")
     cum_total=world_df.loc[2,'Cases - cumulative total per 100000 population']
@@ -458,6 +472,39 @@ elif select=='INDIA vs WORLD':
     w2.markdown("India's Deaths - cumulative total per 1,00,000 population")
     cum_death_total = world_df.loc[2, 'Deaths - cumulative total per 100000 population']
     w2.info('{:,}'.format(cum_death_total))
+
+    sort1 = world_df.sort_values(by='Cases - cumulative total', ascending=False)
+    sort1 = sort1.head(6)
+    sort1 = sort1.iloc[1:]
+
+    worldconfbar = px.bar(sort1,x='Name', y='Cases - cumulative total',labels={'Name':'Country','Cases - cumulative total':'Total Cases'},width=800,height=500,title='Top 5 Country having Highest Affected Cases')
+    worldconfbar=worldconfbar.update_traces(marker_color='#d5d5d6')
+    w1.plotly_chart(worldconfbar)
+    
+    abcd1 = world_df.groupby(['WHO Region'])['Cases - cumulative total'].sum()
+    abcd1=abcd1.to_frame()
+    abcd1=abcd1.reset_index()
+    pie_label=abcd1['WHO Region'].tolist()
+    world_pie=px.pie(abcd1,values='Cases - cumulative total',names='WHO Region',width=800,height=500,title='Region wise COVID19 Affected Pie Chart')
+
+    w2.plotly_chart(world_pie)
+
+    world_df1=world_df.iloc[1:15]
+    world_df1=world_df1.sort_values(by='Cases - newly reported in last 24 hours',ascending=False)
+    world_bar=px.bar(world_df1,x='Name',y='Cases - newly reported in last 24 hours',height=600,width=850,title='Cases in last 24 hours',labels={'Name':'Country','Cases - newly reported in last 24 hours':'Number of Cases'})
+    world_bar=world_bar.update_traces(marker_color='#d5d5d6')
+    w1.plotly_chart(world_bar)
+
+    world_df1 = world_df.sort_values(by='Cases - newly reported in last 7 days', ascending=False)
+    world_df1 = world_df1.iloc[1:15]
+    world_bar2 = px.bar(world_df1, x='Name', y='Cases - newly reported in last 7 days', height=600, width=850,
+                       title='Cases in last 7 days',
+                       labels={'Name': 'Country', 'Cases - newly reported in last 7 days': 'Number of Cases'})
+    world_bar2=world_bar2.update_traces(marker_color='#d5d5d6')
+    w2.plotly_chart(world_bar2)
+    w1.title(' ')
+    w2.title(' ')
+
 st.sidebar.title('STAY HOME | STAY SAFE ')
 st.sidebar.title(' ')
 
