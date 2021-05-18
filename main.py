@@ -487,7 +487,84 @@ elif select=='INDIA vs WORLD':
     pie_label=abcd1['WHO Region'].tolist()
     world_pie=px.pie(abcd1,values='Cases - cumulative total',names='WHO Region',width=800,height=500,title='Region wise COVID19 Affected Pie Chart')
 
-    w2.plotly_chart(world_pie)
+    #w2.plotly_chart(world_pie)
+    wor=world_df.groupby('WHO Region')['Cases - cumulative total'].sum()
+    wor=wor.reset_index()
+
+
+    axisw = ['World  ']
+    af=[wor.iloc[0,1]]
+
+    am=[wor.iloc[1,1]]
+    em=[wor.iloc[2,1]]
+    eu=[wor.iloc[3,1]]
+    ot=[wor.iloc[4,1]]
+    sea=[wor.iloc[5,1]]
+    wp=[wor.iloc[6,1]]
+    america = go.Bar(
+        x=am,
+        y=axisw,
+        name='America', orientation='h',
+        marker_color='#909497'
+
+    )
+    eastern_Mediterranean= go.Bar(
+        x=em,
+        y=axisw,
+        name='Eastern Mediterranean', orientation='h',
+        marker_color='#2874A6'
+    )
+    europe = go.Bar(
+        x=eu,
+        y=axisw,
+        name='Europe', orientation='h',
+        marker_color='#DC7633'
+    )
+    other = go.Bar(
+        x=ot,
+        y=axisw,
+        name='Other', orientation='h',
+        marker_color='#2471A3'
+
+    )
+    africa = go.Bar(
+        x=af,
+        y=axisw,
+        name='Africa', orientation='h',
+        marker_color='#2C3E50'
+
+    )
+    south_east_asia = go.Bar(
+        x=sea,
+        y=axisw,
+        name='South East Asia', orientation='h',
+        marker_color='#1D8348'
+
+    )
+    western_pacific = go.Bar(
+        x=sea,
+        y=axisw,
+        name='Western Pacific', orientation='h',
+        marker_color='#F4D03F'
+
+    )
+    w2.title(' ')
+    w2.title(' ')
+    w2.title(' ')
+
+
+
+
+
+
+    wh_chart=[america,eastern_Mediterranean,europe,other,south_east_asia,western_pacific,africa]
+    wor_layout=go.Layout(barmode='stack',height=250,width=800,title='WHO Region Wise Confirmed Cases')
+    wor_fig=go.Figure(data=wh_chart,layout=wor_layout)
+    w2.plotly_chart(wor_fig)
+    w2.title(' ')
+    w2.title(' ')
+    w2.title(' ')
+
 
     world_df1=world_df.iloc[1:15]
     world_df1=world_df1.sort_values(by='Cases - newly reported in last 24 hours',ascending=False)
