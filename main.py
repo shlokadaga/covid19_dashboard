@@ -251,8 +251,9 @@ elif select=='HOME':
                     )
     dates=['']
 
-    figure1.add_vline(x='15 March 2021',line_dash='dash',line_color='white',opacity=0.2)
-    figure1.add_vline(x='20 March 2021',line_dash='dash',line_color='white',opacity=0.2)
+    figure1.add_vline(x='30 March 2021',line_dash='dash',line_color='white',opacity=0.2)
+    figure1.add_vline(x='10 May 2021',line_dash='dash',line_color='white',opacity=0.2)
+    figure1.add_vline(x='13 May 2021', line_dash='dash', line_color='white', opacity=0.2)
     figure1.update_layout(height=700, width=1650)
 
     st.plotly_chart(figure1)
