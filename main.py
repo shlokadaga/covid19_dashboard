@@ -376,7 +376,7 @@ elif select=='STATES':
         state_fig.add_trace(state_fig4, 4, 1)
         state_fig.update_layout(height=1500, width=950)
 
-        c1, c2 = st.beta_columns((1.2, 1.5))
+        c1, c2 = st.columns((1.2, 1.5))
         c1.title('DISTRICT WISE')
         c1.markdown(' ')
         abcd = pd.read_csv('https://api.covid19india.org/csv/latest/district_wise.csv ')
@@ -421,7 +421,7 @@ elif select=='VACCINATION':
 
     st.write('TOTAL VACCINATION DONE IN INDIA')
     st.info('{:,}'.format(total_vaccination))
-    a1, a2 = st.beta_columns((1, 1))
+    a1, a2 = st.columns((1, 1))
     a1.write('STATE/TERRITORY HAVING HIGHEST NUMBER OF VACCINATION DONE : ')
     a1.info(highest_state)
     a2.write('STATE/TERRITORY HAVING LOWEST NUMBER OF VACCINATION DONE : ')
@@ -441,7 +441,7 @@ elif select=='VACCINATION':
     st.info(da)
     vaccinated_df111 = pd.read_csv('http://api.covid19india.org/csv/latest/cowin_vaccine_data_statewise.csv')
     vaccinated_df11 = vaccinated_df111.loc[vaccinated_df111['Updated On'] == da]
-    b1,b2,b3=st.beta_columns((1,1,1))
+    b1,b2,b3=st.columns((1,1,1))
     b1.write('Male Individuals Vaccinated in India')
     b1.info('{:,}'.format(vaccinated_df11.iloc[0, 7]))
     b2.write('Female Individuals Vaccinated in India')
@@ -457,7 +457,7 @@ elif select=='INDIA vs WORLD':
     world_confirmedsum = world_df['Cases - cumulative total'].sum()
     world_deathsum = world_df['Deaths - cumulative total'].sum()
     st.title("WORLD'S COVID19 STATUS")
-    w1,w2=st.beta_columns((1,1))
+    w1,w2=st.columns((1,1))
     w1.markdown('TOTAL AFFECTED CASES')
     w1.info('{:,}'.format(world_df.loc[0,'Cases - cumulative total']))
     w2.markdown('TOTAL DEATH NUMBER')
