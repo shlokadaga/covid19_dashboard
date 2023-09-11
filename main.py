@@ -93,7 +93,7 @@ final_df.index.name = 'State'
 final_df1 = final_df.drop(final_df.index[0])
 st.title("INDIA'S CURRENT COVID19 STATUS")
 st.markdown(' ')
-a1,a2,a3,a4=st.beta_columns((1,1,1,1))
+a1,a2,a3,a4=st.columns((1,1,1,1))
 a1.markdown('TOTAL ACTIVE CASES')
 a1.info('{:,}'.format(final_df.iloc[0, 3]))
 a2.markdown('TOTAL CONFIRMED CASES')
@@ -110,14 +110,14 @@ if select=='INDIA':
     st.markdown('The dashboard will visualize the Covid-19 Situation in India')
     st.markdown(
         'Coronavirus disease (COVID-19) is an infectious disease caused by a newly discovered coronavirus. Most people infected with the COVID-19 virus will experience mild to moderate respiratory illness and recover without requiring special treatment.')
-    expanded_bar=st.beta_expander('About')
+    expanded_bar=st.expander('About')
     expanded_bar.markdown('CONFIRMED CASES : People who got affected by COVID19')
     expanded_bar.markdown('RECOVERED CASES : People who got recovered by COVID19')
     expanded_bar.markdown('DECEASED CASES : People who died due to COVID19')
     expanded_bar.markdown('ACTIVE CASES : People who currently have COVID19')
     st.markdown('    ')
 
-    col1, col2 = st.beta_columns((1.2, 1))
+    col1, col2 = st.columns((1.2, 1))
     col2.markdown('COVID19 in India')
 
     final_df_df=final_df1.sort_values(by='Confirmed Cases',ascending=False)
@@ -263,7 +263,7 @@ elif select=='HOME':
 
     no_of_days = st.selectbox('DAYS', [ '30 DAYS', '10 DAYS', '2 MONTHS','4 MONTHS', '6 MONTHS', '8 MONTHS'],
                                       key=2)
-    home_col1, home_col2 = st.beta_columns((1.2, 0.8))
+    home_col1, home_col2 = st.columns((1.2, 0.8))
     home_col2.markdown(' ')
     home_col2.markdown(' ')
 
@@ -301,7 +301,7 @@ elif select=='HOME':
     fig.update_xaxes(nticks=8,tickangle=20)
     fig.update_layout(height=1500, width=900)
     home_col1.plotly_chart(fig)
-    col1, col2 = st.beta_columns([.5, 1])
+    col1, col2 = st.columns([.5, 1])
     csv=df.to_csv(index=False)
     b64=base64.b64encode(csv.encode()).decode()
     st.markdown(" ")
@@ -338,7 +338,7 @@ elif select=='STATES':
         final=final.loc[final['State']==option]
 
         st.title(str.upper(option))
-        s1, s2 = st.beta_columns((1, 1))
+        s1, s2 = st.columns((1, 1))
         s1.write(' CONFIRMED CASES : ')
         s1.info('{:,}'.format(final.iat[0, 1]))
         s1.write(' RECOVERED CASES : ')
